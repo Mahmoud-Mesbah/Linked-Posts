@@ -85,27 +85,7 @@ export const uploadPhoto = createAsyncThunk("user/uploadPhoto",
   }
 );
 
-//! ================= PROFILE NAME =====================
-export const updateProfileName = createAsyncThunk("user/updateProfileName",
-  async (name, thunkAPI) => {
-    try {
-      const { data } = await api.patch("/users/update-me",{ name }
-      );
 
-      const user = data.user || data.data?.user;
-      if (user) {
-        localStorage.setItem("user", JSON.stringify(user));
-      }
-
-      toast.success("Name Updated");
-      return user;
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Error updating name" );
-
-      return thunkAPI.rejectWithValue(error.response?.data?.message);
-    }
-  }
-);
 
 //! ================= CHANGE PASSWORD =================
 export const changePassword = createAsyncThunk("user/changePassword",
@@ -185,9 +165,7 @@ const userSlice = createSlice({
         }
       )
 
-      .addCase(updateProfileName.fulfilled, (state, action) => {
-        state.user = action.payload;
-      })
+      
 
       .addCase(
         uploadPhoto.rejected,
